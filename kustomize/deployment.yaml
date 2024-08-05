@@ -19,14 +19,13 @@ spec:
         app.kubernetes.io/name: jrest
         app.kubernetes.io/instance: jrest
     spec:
-      serviceAccountName: jrest-server
       securityContext:
         {}
       containers:
         - name: jrest
           securityContext:
             {}
-          image: "emrahkk/jrest:v1.0.0-rc"
+          image: "test-harbor.apps.nonprod.ebt.bank/docker-proxy/emrahkk/jrest:v1.0.0-rc"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -42,3 +41,23 @@ spec:
               port: http
           resources:
             {}
+          volumeMounts:
+            - name: data-volume
+              mountPath: /usr/src/app/data            
+      volumes:          
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: jrest-pvc
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: jrest-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: nfs-storageclass
+  volumeMode: Filesystem

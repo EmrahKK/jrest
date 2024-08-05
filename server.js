@@ -13,8 +13,11 @@ let jsonObject = {}
 
 // Read jeosn file from path
 const readJsonFile = async () => {
-  jsonObject = await fs.readJson(process.env.JSONFILE)
-  console.log(jsonObject["aragorn-apigateway"])
+  try {
+    jsonObject = await fs.readJson(process.env.JSONFILE)
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 readJsonFile() // prints your json object
