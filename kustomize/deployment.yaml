@@ -1,0 +1,44 @@
+# Source: echo-server/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echosrv-echo-server
+  labels:
+    app.kubernetes.io/name: echo-server
+    app.kubernetes.io/instance: echosrv
+    app.kubernetes.io/version: "1.0.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: echo-server
+      app.kubernetes.io/instance: echosrv
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: echo-server
+        app.kubernetes.io/instance: echosrv
+    spec:
+      serviceAccountName: echosrv-echo-server
+      securityContext:
+        {}
+      containers:
+        - name: echo-server
+          securityContext:
+            {}
+          image: "emrahkk/echo-server:1.0.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+          resources:
+            {}

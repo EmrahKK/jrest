@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: echo-server
+  namespace: echo-server
+spec:
+  serviceAccountName: echo-server
+  releaseName: echo-server
+  chart:
+    spec:
+      chart: echo-server
+      sourceRef:
+        kind: HelmRepository
+        name: emrahkk-github-io
+  interval: 1m

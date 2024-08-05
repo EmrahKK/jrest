@@ -1,0 +1,8 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: emrahkk-github-io
+  namespace: echo-server
+spec:
+  interval: 30m
+  url: https://emrahkk.github.io/helm/charts
