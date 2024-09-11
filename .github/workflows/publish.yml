@@ -32,6 +32,12 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: emrahkk/jrest
+      
+      - name: Extract metadata (tags, labels) for Docker
+        id: metaFio
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: emrahkk/AlpineFio          
 
       - name: Build and push Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
@@ -41,3 +47,12 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build and push Fio
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ./custom-images/AlpineFio
+          push: true
+          tags: ${{ steps.metaFio.outputs.tags }}
+          labels: ${{ steps.metaFio.outputs.labels }}
